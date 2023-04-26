@@ -1,30 +1,29 @@
 package org.example.entity.enums;
 
-import java.awt.event.KeyEvent;
 import java.util.Optional;
 
 public enum KeyDirectionEnum {
-    UP(KeyEvent.VK_UP),
-    DOWN(KeyEvent.VK_DOWN),
-    LEFT(KeyEvent.VK_LEFT),
-    RIGHT(KeyEvent.VK_RIGHT);
+    UP("W"),
+    DOWN("S"),
+    LEFT("A"),
+    RIGHT("D");
 
-    private final int keyEvent;
+    private final String key;
 
-    KeyDirectionEnum(int keyEvent) {
-        this.keyEvent = keyEvent;
+    KeyDirectionEnum(String key) {
+        this.key = key;
     }
 
-    public static Optional<KeyDirectionEnum> getByKeyCode(int keyCode) {
+    public static Optional<KeyDirectionEnum> getByKeyCode(String key) {
         for (KeyDirectionEnum keyDirectionEnum : KeyDirectionEnum.values()) {
-            if (keyDirectionEnum.getKeyEvent() == keyCode) {
+            if (keyDirectionEnum.getKey().equalsIgnoreCase(key)) {
                 return Optional.of(keyDirectionEnum);
             }
         }
         return Optional.empty();
     }
 
-    public int getKeyEvent() {
-        return keyEvent;
+    public String getKey() {
+        return key;
     }
 }

@@ -1,47 +1,49 @@
 package org.example.application;
 
 import org.example.entity.Board;
+import org.example.entity.enums.AnsiColorEnum;
 import org.example.entity.enums.KeyDirectionEnum;
+import org.example.exception.ColorException;
+import org.example.exception.KeyException;
 
-import java.awt.event.KeyEvent;
-import java.util.InputMismatchException;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class UI {
-
-    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    private UI() {
+    }
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public static KeyDirectionEnum readMoveDirection(KeyEvent event) {
-        return KeyDirectionEnum.getByKeyCode(event.getKeyCode()).orElseThrow(() -> new InputMismatchException("Tecla inválida"));
+    public static void print(String texto) {
+        System.out.print(texto + AnsiColorEnum.ANSI_RESET.getColor());
+    }
+
+    public static void print(String texto, AnsiColorEnum ansiColorEnum) {
+        System.out.print(Optional.ofNullable(ansiColorEnum).orElseThrow(() -> new ColorException("Color is required"))
+                .getColor() + texto + AnsiColorEnum.ANSI_RESET.getColor());
+    }
+
+    public static void println(String texto) {
+        System.out.println(texto + AnsiColorEnum.ANSI_RESET.getColor());
+    }
+
+    public static void println(String texto, AnsiColorEnum ansiColorEnum) {
+        System.out.println(Optional.ofNullable(ansiColorEnum).orElseThrow(() -> new ColorException("Color is required"))
+                .getColor() + texto + AnsiColorEnum.ANSI_RESET.getColor());
+    }
+
+    public static KeyDirectionEnum readMoveDirection(Scanner scanner) throws KeyException {
+        return KeyDirectionEnum.getByKeyCode(scanner.next()).orElseThrow(() -> new KeyException("Tecla inválida"));
     }
 
     public static void printMatch(Board board) {
         printTable(board.getTable());
-        System.out.println();
+        println("");
 
 //        printCapturedPieces(captured);
 //        System.out.println();
@@ -62,13 +64,13 @@ public class UI {
 
     public static void printTable(Integer[][] table) {
         for (int i = 0; i < table.length; i++) {
-            System.out.print((table.length - i) + " ");
+            print((table.length - i) + " ");
             for (int j = 0; j < table[i].length; j++) {
                 printPiece(table[i][j], false);
             }
-            System.out.println();
+            println("");
         }
-        System.out.println("  a b c d");
+        println("  a b c d");
     }
 
 //    public static void printTable(ChessPiece[][] pieces, boolean[][] possibleMoves) {
@@ -84,14 +86,14 @@ public class UI {
 
     private static void printPiece(Integer piece, boolean background) {
         if (background) {
-            System.out.print(ANSI_BLUE_BACKGROUND);
+            print("", AnsiColorEnum.ANSI_BLUE_BACKGROUND);
         }
         if (Objects.isNull(piece)) {
-            System.out.print("-" + ANSI_RESET);
+            print("-");
         } else {
-            System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
+            print(piece.toString(), AnsiColorEnum.ANSI_YELLOW);
         }
-        System.out.print(" ");
+        print(" ");
     }
 
 //    private static void printCapturedPieces(List<ChessPiece> captured) {
