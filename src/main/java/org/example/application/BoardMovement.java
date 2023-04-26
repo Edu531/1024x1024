@@ -1,14 +1,11 @@
 package org.example.application;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.entity.Board;
 import org.example.entity.enums.KeyDirectionEnum;
 
 import java.util.Objects;
 
 public class BoardMovement {
-    static final Logger logger = LogManager.getLogger(BoardMovement.class);
 
     private BoardMovement() {
     }

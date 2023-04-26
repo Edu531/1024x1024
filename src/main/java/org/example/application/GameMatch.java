@@ -1,22 +1,21 @@
 package org.example.application;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.entity.Board;
 import org.example.entity.enums.AnsiColorEnum;
-import org.example.exception.KeyException;
 
 import java.util.Scanner;
 
 public class GameMatch {
-    static final Logger logger = LogManager.getLogger(GameMatch.class);
 
     private Board board;
     private Scanner scanner;
     private boolean isGameOver = true;
 
     public GameMatch() {
-        logger.info("GameMatch constructor");
+    }
+
+    public GameMatch(Board board) {
+        this.board = board;
     }
 
     public void startMatch(Scanner scanner) {
@@ -37,15 +36,13 @@ public class GameMatch {
     public void movePiece() {
         try {
             BoardMovement.movePieces(UI.readMoveDirection(scanner), board);
-        } catch (KeyException keyException) {
-            UI.println(keyException.getMessage(), AnsiColorEnum.ANSI_RED);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            UI.println(e.getMessage(), AnsiColorEnum.ANSI_RED);
         }
     }
 
     public boolean canMove() {
-        logger.fatal("Não implementado");
+        UI.println("Não implementado");
         return true;
     }
 
