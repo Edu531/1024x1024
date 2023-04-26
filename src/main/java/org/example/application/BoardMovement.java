@@ -3,6 +3,7 @@ package org.example.application;
 import org.example.entity.Board;
 import org.example.entity.enums.KeyDirectionEnum;
 
+import java.security.SecureRandom;
 import java.util.Objects;
 
 public class BoardMovement {
@@ -19,6 +20,20 @@ public class BoardMovement {
             case RIGHT -> moveRight(matrix);
             default -> throw new IllegalArgumentException("Invalid key");
         }
+
+        includesNewPieceInRandonPlace(matrix);
+    }
+
+    private static void includesNewPieceInRandonPlace(Integer[][] matrix) {
+        int numero = 2; //TODO - Ajustar para vir como parametro;
+        int linha;
+        int coluna;
+        do {
+            linha = new SecureRandom().nextInt(matrix.length);
+            coluna = new SecureRandom().nextInt(matrix[0].length);
+        } while (matrix[linha][coluna] != null);
+
+        matrix[linha][coluna] = numero;
     }
 
     private static void moveRight(Integer[][] matrix) {
