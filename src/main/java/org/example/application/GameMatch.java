@@ -24,7 +24,6 @@ public class GameMatch {
         setGameOver(false);
         UI.clearScreen();
         System.out.println("Start match");
-        UI.printMatch(board);
     }
 
     public void startRound() {
@@ -33,7 +32,7 @@ public class GameMatch {
         movePieces(2);
     }
 
-    public void movePieces(int numeroAdicional) {
+    public void movePieces(Integer numeroAdicional) {
         try {
             BoardMovement.movePieces(UI.readMoveDirection(scanner), numeroAdicional, board);
         } catch (Exception e) {
