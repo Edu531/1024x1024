@@ -114,8 +114,8 @@ public class BoardMovement {
             Integer[] linha = matriz[i];
             for (int j = 0; j < linha.length; j++) {
                 Integer piece = linha[j];
-                if (Objects.nonNull(piece) && i != matriz.length - 1) {
-                    combineColumn(1, matriz, i, j);
+                if (Objects.nonNull(piece)) {
+                    combineColumn(-1, matriz, i, j);
                 }
             }
         }
@@ -149,7 +149,7 @@ public class BoardMovement {
             for (int j = 0; j < coluna.length; j++) {
                 Integer piece = coluna[j];
                 if (Objects.nonNull(piece) && i != matriz.length - 1) {
-                    combineColumn(-1, matriz, i, j);
+                    combineColumn(1, matriz, i, j);
                 }
             }
         }
