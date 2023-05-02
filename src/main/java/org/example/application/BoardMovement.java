@@ -11,33 +11,32 @@ public class BoardMovement {
     private BoardMovement() {
     }
 
-    public static void movePieces(KeyDirectionEnum keyDirectionEnum, Board board) {
-        Integer[][] matrix = board.getTable();
+    public static void movePieces(KeyDirectionEnum keyDirectionEnum, int numeroAdicional, Board board) {
+        Integer[][] matriz = board.getTable();
         switch (keyDirectionEnum) {
-            case UP -> moveUp(matrix);
-            case DOWN -> moveDown(matrix);
-            case LEFT -> moveLeft(matrix);
-            case RIGHT -> moveRight(matrix);
+            case UP -> moveUp(matriz);
+            case DOWN -> moveDown(matriz);
+            case LEFT -> moveLeft(matriz);
+            case RIGHT -> moveRight(matriz);
             default -> throw new IllegalArgumentException("Invalid key");
         }
 
-        includesNewPieceInRandonPlace(matrix);
+        includesNewPieceInRandonPlace(matriz, numeroAdicional);
     }
 
-    private static void includesNewPieceInRandonPlace(Integer[][] matrix) {
-        int numero = 2; //TODO - Ajustar para vir como parametro;
+    private static void includesNewPieceInRandonPlace(Integer[][] matriz, int numeroAdicional) {
         int linha;
         int coluna;
         do {
-            linha = new SecureRandom().nextInt(matrix.length);
-            coluna = new SecureRandom().nextInt(matrix[0].length);
-        } while (matrix[linha][coluna] != null);
+            linha = new SecureRandom().nextInt(matriz.length);
+            coluna = new SecureRandom().nextInt(matriz[0].length);
+        } while (matriz[linha][coluna] != null);
 
-        matrix[linha][coluna] = numero;
+        matriz[linha][coluna] = numeroAdicional;
     }
 
-    private static void moveRight(Integer[][] matrix) {
-        for (Integer[] coluna : matrix) {
+    private static void moveRight(Integer[][] matriz) {
+        for (Integer[] coluna : matriz) {
             for (int j = 0; j < coluna.length; j++) {
                 Integer piece = coluna[j];
                 if (Objects.nonNull(piece) && j != coluna.length - 1) {
@@ -54,8 +53,8 @@ public class BoardMovement {
         }
     }
 
-    private static void moveLeft(Integer[][] matrix) {
-       for (Integer[] coluna : matrix) {
+    private static void moveLeft(Integer[][] matriz) {
+       for (Integer[] coluna : matriz) {
            for (int j = coluna.length - 1; j >= 0; j--) {
                Integer piece = coluna[j];
                if (Objects.nonNull(piece) && j != 0) {
@@ -72,38 +71,38 @@ public class BoardMovement {
        }
     }
 
-    private static void moveDown(Integer[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            Integer[] coluna = matrix[i];
+    private static void moveDown(Integer[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            Integer[] coluna = matriz[i];
             for (int j = 0; j < coluna.length; j++) {
                 Integer piece = coluna[j];
-                if (Objects.nonNull(piece) && i != matrix.length - 1) {
-                    Integer nextPiece = matrix[i + 1][j];
+                if (Objects.nonNull(piece) && i != matriz.length - 1) {
+                    Integer nextPiece = matriz[i + 1][j];
                     if (Objects.isNull(nextPiece)) {
-                        matrix[i + 1][j] = piece;
-                        matrix[i][j] = null;
+                        matriz[i + 1][j] = piece;
+                        matriz[i][j] = null;
                     } else if (piece.equals(nextPiece)) {
-                        matrix[i + 1][j] = piece * 2;
-                        matrix[i][j] = null;
+                        matriz[i + 1][j] = piece * 2;
+                        matriz[i][j] = null;
                     }
                 }
             }
         }
     }
 
-    private static void moveUp(Integer[][] matrix) {
-        for (int i = matrix.length - 1; i >= 0; i--) {
-            Integer[] coluna = matrix[i];
+    private static void moveUp(Integer[][] matriz) {
+        for (int i = matriz.length - 1; i >= 0; i--) {
+            Integer[] coluna = matriz[i];
             for (int j = 0; j < coluna.length; j++) {
                 Integer piece = coluna[j];
                 if (Objects.nonNull(piece) && i != 0) {
-                    Integer nextPiece = matrix[i - 1][j];
+                    Integer nextPiece = matriz[i - 1][j];
                     if (Objects.isNull(nextPiece)) {
-                        matrix[i - 1][j] = piece;
-                        matrix[i][j] = null;
+                        matriz[i - 1][j] = piece;
+                        matriz[i][j] = null;
                     } else if (piece.equals(nextPiece)) {
-                        matrix[i - 1][j] = piece * 2;
-                        matrix[i][j] = null;
+                        matriz[i - 1][j] = piece * 2;
+                        matriz[i][j] = null;
                     }
                 }
             }

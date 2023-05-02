@@ -30,12 +30,12 @@ public class GameMatch {
     public void startRound() {
         UI.clearScreen();
         UI.printMatch(board);
-        movePiece();
+        movePieces(2);
     }
 
-    public void movePiece() {
+    public void movePieces(int numeroAdicional) {
         try {
-            BoardMovement.movePieces(UI.readMoveDirection(scanner), board);
+            BoardMovement.movePieces(UI.readMoveDirection(scanner), numeroAdicional, board);
         } catch (Exception e) {
             UI.println(e.getMessage(), AnsiColorEnum.ANSI_RED);
         }

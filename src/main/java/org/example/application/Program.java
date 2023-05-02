@@ -15,9 +15,8 @@ public class Program {
         while (!gameMatch.isGameOver()) {
             try {
                 gameMatch.startRound();
-
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                UI.println(e.getMessage());
             }
         }
 
