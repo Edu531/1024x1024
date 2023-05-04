@@ -39,7 +39,7 @@ public class UI {
 
     public static KeyDirectionEnum readMoveDirection(Scanner scanner) throws KeyException {
         UI.println("Digite a tecla para mover as peças (W, A, S, D): ", AnsiColorEnum.ANSI_GREEN);
-        return KeyDirectionEnum.getByKeyCode(scanner.next()).orElseThrow(() -> new KeyException("Tecla inválida"));
+        return KeyDirectionEnum.getByKeyCode(scanner.next()).orElseThrow(() -> new KeyException("Invalid key"));
     }
 
     public static void printMatch(Board board) {

@@ -3,6 +3,8 @@ package org.example.application;
 import org.example.entity.Board;
 import org.example.entity.enums.AnsiColorEnum;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class GameMatch {
@@ -30,6 +32,9 @@ public class GameMatch {
         UI.clearScreen();
         UI.printMatch(board);
         movePieces(2);
+        if (!canMove()) {
+            setGameOver(true);
+        }
     }
 
     public void movePieces(Integer numeroAdicional) {
@@ -41,8 +46,7 @@ public class GameMatch {
     }
 
     public boolean canMove() {
-        UI.println("Não implementado");
-        return true;
+        return Arrays.stream(board.getTable()).anyMatch(row -> Arrays.stream(row).anyMatch(Objects::isNull));
     }
 
     public Board getBoard() {

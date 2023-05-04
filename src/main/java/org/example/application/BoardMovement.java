@@ -2,8 +2,10 @@ package org.example.application;
 
 import org.example.entity.Board;
 import org.example.entity.enums.KeyDirectionEnum;
+import org.example.exception.MovimentException;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class BoardMovement {
@@ -12,16 +14,22 @@ public class BoardMovement {
     }
 
     public static void movePieces(KeyDirectionEnum keyDirectionEnum, Integer numeroAdicional, Board board) {
-        Integer[][] matriz = board.getTable();
+        Integer[][] matrizOriginal = board.getTable();
+        Integer[][] matriz = Arrays.stream(matrizOriginal).map(Integer[]::clone).toArray(Integer[][]::new);
+
         switch (keyDirectionEnum) {
             case UP -> moveUp(matriz);
             case DOWN -> moveDown(matriz);
             case LEFT -> moveLeft(matriz);
             case RIGHT -> moveRight(matriz);
-            default -> throw new IllegalArgumentException("Invalid key");
+        }
+
+        if (Arrays.deepEquals(matriz, matrizOriginal)) {
+            throw new MovimentException("Invalid move. Try moving in another direction.");
         }
 
         includesNewPieceInRandonPlace(matriz, numeroAdicional);
+        board.setTable(matriz);
     }
 
     private static void moveRight(Integer[][] matriz) {
@@ -132,7 +140,7 @@ public class BoardMovement {
     }
 
     private static void moveColumnDown(Integer[][] matriz) {
-        for (int i = 0; i < matriz.length; i++) {
+        for (int i = matriz.length - 1; i >= 0; i--) {
             Integer[] linha = matriz[i];
             for (int j = linha.length - 1; j >= 0; j--) {
                 Integer piece = linha[j];
@@ -156,7 +164,7 @@ public class BoardMovement {
     }
 
     private static void moveColumnUp(Integer[][] matriz) {
-        for (int i = matriz.length - 1; i >= 0; i--) {
+        for (int i = 0; i < matriz.length; i++) {
             Integer[] linha = matriz[i];
             for (int j = 0; j < linha.length; j++) {
                 Integer piece = linha[j];
