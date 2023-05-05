@@ -49,6 +49,10 @@ public class GameMatch {
         return Arrays.stream(board.getTable()).anyMatch(row -> Arrays.stream(row).anyMatch(Objects::isNull));
     }
 
+    public void printGameOver() {
+        UI.printGameOver(board);
+    }
+
     public Board getBoard() {
         return board;
     }

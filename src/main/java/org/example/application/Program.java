@@ -19,7 +19,7 @@ public class Program {
                 UI.println(e.getMessage());
             }
         }
-        UI.println("Game Over");
+        gameMatch.printGameOver();
 
         scanner.close();
     }
