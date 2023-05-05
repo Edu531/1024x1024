@@ -1,6 +1,7 @@
 package org.example.application;
 
 import org.example.entity.Board;
+import org.example.exception.GameException;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class GameMatch {
     public void movePieces(Integer numeroAdicional) {
         try {
             BoardMovement.movePieces(UI.readMoveDirection(scanner), numeroAdicional, board);
-        } catch (Exception e) {
+        } catch (GameException e) {
             printError(e.getMessage());
         }
     }

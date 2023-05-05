@@ -1,5 +1,7 @@
 package org.example.application;
 
+import org.example.exception.GameException;
+
 import java.util.Scanner;
 
 public class Program {
@@ -15,7 +17,7 @@ public class Program {
         while (!gameMatch.isGameOver()) {
             try {
                 gameMatch.startRound();
-            } catch (Exception e) {
+            } catch (GameException e) {
                 gameMatch.printError(e.getMessage());
             }
         }
