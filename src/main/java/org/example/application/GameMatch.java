@@ -64,6 +64,10 @@ public class GameMatch {
         }
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     public boolean isGameOver() {
         return isGameOver;
     }

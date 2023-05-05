@@ -25,13 +25,20 @@ class GameMatchTest {
 
     @Test
     void testCanMove() {
-        when(board.getTable()).thenReturn(new Integer[][]{{null, 2}});
+        gameMatch.setBoard(board);
+        when(board.getTable()).thenReturn(new Integer[][]{{2, 2}});
         assertTrue(gameMatch.canMove());
     }
 
     @Test
     void testNotCanMove() {
-        when(board.getTable()).thenReturn(new Integer[][]{{2, 2}});
+        gameMatch.setBoard(board);
+        when(board.getTable()).thenReturn(new Integer[][] {
+                {1, 2, 3, 4},
+                {4, 3, 2, 1},
+                {1, 2, 3, 4},
+                {4, 3, 2, 1}
+        });
         assertFalse(gameMatch.canMove());
     }
 }
