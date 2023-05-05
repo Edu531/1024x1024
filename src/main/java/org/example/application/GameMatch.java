@@ -1,7 +1,6 @@
 package org.example.application;
 
 import org.example.entity.Board;
-import org.example.entity.enums.AnsiColorEnum;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -25,7 +24,7 @@ public class GameMatch {
         this.scanner = scanner;
         setGameOver(false);
         UI.clearScreen();
-        System.out.println("Start match");
+        UI.startMatch(scanner);
     }
 
     public void startRound() {
@@ -41,7 +40,7 @@ public class GameMatch {
         try {
             BoardMovement.movePieces(UI.readMoveDirection(scanner), numeroAdicional, board);
         } catch (Exception e) {
-            UI.println(e.getMessage(), AnsiColorEnum.ANSI_RED);
+            printError(e.getMessage());
         }
     }
 
@@ -51,6 +50,18 @@ public class GameMatch {
 
     public void printGameOver() {
         UI.printGameOver(board);
+    }
+
+    public void printError(String message) {
+        if (Objects.isNull(scanner)) {
+            final Scanner temporaryScanner = new Scanner(System.in);
+            UI.printError(message, temporaryScanner);
+            temporaryScanner.nextLine();
+            temporaryScanner.close();
+        } else {
+            UI.printError(message, scanner);
+            scanner.nextLine();
+        }
     }
 
     public Board getBoard() {

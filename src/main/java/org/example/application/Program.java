@@ -16,7 +16,7 @@ public class Program {
             try {
                 gameMatch.startRound();
             } catch (Exception e) {
-                UI.println(e.getMessage());
+                gameMatch.printError(e.getMessage());
             }
         }
         gameMatch.printGameOver();

@@ -39,7 +39,7 @@ public class UI {
     }
 
     public static KeyDirectionEnum readMoveDirection(Scanner scanner) throws KeyException {
-        UI.println("Digite a tecla para mover as peças (W, A, S, D): ", AnsiColorEnum.ANSI_GREEN);
+        UI.println("Type the key to move the pieces (W, A, S, D): ", AnsiColorEnum.ANSI_GREEN);
         return KeyDirectionEnum.getByKeyCode(scanner.next()).orElseThrow(() -> new KeyException("Invalid key"));
     }
 
@@ -49,16 +49,18 @@ public class UI {
     }
 
     private static void printTable(Integer[][] table) {
+        printTopSpace();
         String space = getCorrectSpace(table);
+
         for (int i = 0; i < table.length; i++) {
             print((table.length - i) + " ");
-            for (int j = 0; j < table[i].length; j++) {
-                if (Objects.nonNull(table[i][j]) && table[i][j].toString().length() != 1) {
-                    printPiece(table[i][j], "", false);
-                    int tamanho = space.length() - table[i][j].toString().length();
+            for (Integer piece : table[i]) {
+                if (Objects.nonNull(piece) && piece.toString().length() != 1) {
+                    printPiece(piece, "", false);
+                    int tamanho = space.length() - piece.toString().length();
                     print(Stream.generate(() -> " ").limit(tamanho).reduce((s1, s2) -> s1 + s2).orElse(" "));
                 } else {
-                    printPiece(table[i][j], space, false);
+                    printPiece(piece, space, false);
                 }
             }
             println("");
@@ -94,5 +96,26 @@ public class UI {
         clearScreen();
         printMatch(board);
         println("Game Over!", AnsiColorEnum.ANSI_RED);
+    }
+
+    public static void printError(String message, Scanner scanner) {
+        println(message, AnsiColorEnum.ANSI_RED);
+        println("");
+        println("Press enter to continue", AnsiColorEnum.ANSI_GREEN);
+        scanner.nextLine();
+    }
+
+    public static void startMatch(Scanner scanner) {
+        println("###############", AnsiColorEnum.ANSI_GREEN);
+        println("## 1024x1024 ##", AnsiColorEnum.ANSI_GREEN);
+        println("###############", AnsiColorEnum.ANSI_GREEN);
+        println("");
+        println("Press enter to start", AnsiColorEnum.ANSI_GREEN);
+        scanner.nextLine();
+    }
+
+    private static void printTopSpace() {
+        println("");
+        println("");
     }
 }
