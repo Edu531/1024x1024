@@ -10,43 +10,42 @@ import java.util.Scanner;
 public class GameMatch {
 
     private Board board;
-    private Scanner scanner;
+    private final Scanner scanner;
     private boolean isGameOver = true;
 
-    public GameMatch() {
-    }
-
-    public GameMatch(Board board) {
-        this.board = board;
-    }
-
-    public void startMatch(Scanner scanner) {
-        board = Board.defaltBoard();
+    public GameMatch(Scanner scanner) {
         this.scanner = scanner;
+    }
+
+    public void startMatch() {
+        board = Board.defaltBoard();
         setGameOver(false);
         UI.clearScreen();
-        UI.startMatch(scanner);
+        UI.startMatchMessage(scanner);
     }
 
     public void startRound() {
         UI.clearScreen();
         UI.printMatch(board);
-        movePieces(2);
+        movePieces();
         if (!canMove()) {
             setGameOver(true);
         }
     }
 
-    public void movePieces(Integer numeroAdicional) {
+    public void movePieces() {
         try {
-            BoardMovement.movePieces(UI.readMoveDirection(scanner), numeroAdicional, board);
+            BoardMovement.movePieces(UI.readMoveDirection(scanner), board);
         } catch (GameException e) {
             printError(e.getMessage());
         }
     }
 
     public boolean canMove() {
-        return Arrays.stream(board.getTable()).anyMatch(row -> Arrays.stream(row).anyMatch(Objects::isNull));
+        if (Arrays.stream(board.getTable()).noneMatch(row -> Arrays.stream(row).anyMatch(Objects::isNull))) {
+            return BoardMovement.hasPossibleMoves(board.getTable());
+        }
+        return true;
     }
 
     public void printGameOver() {
@@ -63,14 +62,6 @@ public class GameMatch {
             UI.printError(message, scanner);
             scanner.nextLine();
         }
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
     }
 
     public boolean isGameOver() {

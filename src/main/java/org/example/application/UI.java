@@ -56,11 +56,11 @@ public class UI {
             print((table.length - i) + " ");
             for (Integer piece : table[i]) {
                 if (Objects.nonNull(piece) && piece.toString().length() != 1) {
-                    printPiece(piece, "", false);
-                    int tamanho = space.length() - piece.toString().length();
+                    printPiece(piece, "");
+                    int tamanho = (space.length() - piece.toString().length()) + 1;
                     print(Stream.generate(() -> " ").limit(tamanho).reduce((s1, s2) -> s1 + s2).orElse(" "));
                 } else {
-                    printPiece(piece, space, false);
+                    printPiece(piece, space);
                 }
             }
             println("");
@@ -68,10 +68,7 @@ public class UI {
         println(String.format("  a%sb%sc%sd", space, space, space));
     }
 
-    private static void printPiece(Integer piece, String space, boolean background) {
-        if (background) {
-            print("", AnsiColorEnum.ANSI_BLUE_BACKGROUND);
-        }
+    private static void printPiece(Integer piece, String space) {
         if (Objects.isNull(piece)) {
             print("-");
         } else {
@@ -105,7 +102,7 @@ public class UI {
         scanner.nextLine();
     }
 
-    public static void startMatch(Scanner scanner) {
+    public static void startMatchMessage(Scanner scanner) {
         println("###############", AnsiColorEnum.ANSI_GREEN);
         println("## 1024x1024 ##", AnsiColorEnum.ANSI_GREEN);
         println("###############", AnsiColorEnum.ANSI_GREEN);

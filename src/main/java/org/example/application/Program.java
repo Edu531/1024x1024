@@ -10,9 +10,9 @@ public class Program {
 
     public static void start() {
         final Scanner scanner = new Scanner(System.in);
-        final GameMatch gameMatch = new GameMatch();
+        final GameMatch gameMatch = new GameMatch(scanner);
 
-        gameMatch.startMatch(scanner);
+        gameMatch.startMatch();
 
         while (!gameMatch.isGameOver()) {
             try {

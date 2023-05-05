@@ -23,25 +23,6 @@ class GameMatchTest {
         MockitoAnnotations.openMocks(this);
     }
 
-//    @Test
-//    void testStartMatch() {
-//        when(board.defaltBoard()).thenReturn(null);
-//
-//        gameMatch.startMatch(null);
-//    }
-//
-//    @Test
-//    void testStartRound() {
-//        when(board.getTable()).thenReturn(new Integer[][]{new Integer[]{Integer.valueOf(0)}});
-//
-//        gameMatch.startRound();
-//    }
-//
-//    @Test
-//    void testMovePieces() {
-//        gameMatch.movePieces(Integer.valueOf(0));
-//    }
-//
     @Test
     void testCanMove() {
         when(board.getTable()).thenReturn(new Integer[][]{{null, 2}});

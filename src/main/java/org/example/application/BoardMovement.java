@@ -2,7 +2,7 @@ package org.example.application;
 
 import org.example.entity.Board;
 import org.example.entity.enums.KeyDirectionEnum;
-import org.example.exception.MovimentException;
+import org.example.exception.MovementException;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -13,23 +13,27 @@ public class BoardMovement {
     private BoardMovement() {
     }
 
-    public static void movePieces(KeyDirectionEnum keyDirectionEnum, Integer numeroAdicional, Board board) {
+    public static void movePieces(KeyDirectionEnum keyDirectionEnum, Board board) {
         Integer[][] matrizOriginal = board.getTable();
         Integer[][] matriz = Arrays.stream(matrizOriginal).map(Integer[]::clone).toArray(Integer[][]::new);
 
+        movePiecesDirection(keyDirectionEnum, matriz);
+
+        if (Arrays.deepEquals(matriz, matrizOriginal)) {
+            throw new MovementException("Invalid move. Try moving in another direction.");
+        }
+
+        includesNewPieceInRandonPlace(matriz, board.getAdditionalNumber());
+        board.setTable(matriz);
+    }
+
+    private static void movePiecesDirection(KeyDirectionEnum keyDirectionEnum, Integer[][] matriz) {
         switch (keyDirectionEnum) {
             case UP -> moveUp(matriz);
             case DOWN -> moveDown(matriz);
             case LEFT -> moveLeft(matriz);
             case RIGHT -> moveRight(matriz);
         }
-
-        if (Arrays.deepEquals(matriz, matrizOriginal)) {
-            throw new MovimentException("Invalid move. Try moving in another direction.");
-        }
-
-        includesNewPieceInRandonPlace(matriz, numeroAdicional);
-        board.setTable(matriz);
     }
 
     private static void moveRight(Integer[][] matriz) {
@@ -194,5 +198,13 @@ public class BoardMovement {
         } while (matriz[linha][coluna] != null);
 
         matriz[linha][coluna] = numeroAdicional;
+    }
+
+    public static boolean hasPossibleMoves(Integer[][] table) {
+        return Arrays.stream(KeyDirectionEnum.values()).anyMatch(keyDirectionEnum -> {
+            Integer[][] tableCopy = Arrays.stream(table).map(Integer[]::clone).toArray(Integer[][]::new);
+            movePiecesDirection(keyDirectionEnum, tableCopy);
+            return !Arrays.deepEquals(table, tableCopy);
+        });
     }
 }

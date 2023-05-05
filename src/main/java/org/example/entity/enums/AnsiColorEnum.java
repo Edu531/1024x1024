@@ -1,7 +1,6 @@
 package org.example.entity.enums;
 
 public enum AnsiColorEnum {
-    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
     ANSI_RESET("\u001B[0m"),
     ANSI_BLACK("\u001B[30m"),
     ANSI_RED("\u001B[31m"),
